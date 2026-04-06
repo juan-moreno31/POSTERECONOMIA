@@ -1,0 +1,123 @@
+---
+title: ""
+author: ""
+date: ""
+lang: es
+bibliography: referencias.bib
+csl: apa.csl
+
+format:
+  pdf:
+    documentclass: article
+    classoption: 12pt
+    papersize: letter
+    geometry:
+      - margin=2.54cm
+    linestretch: 2
+    mainfont: "Times New Roman"
+    fontsize: 12pt
+    toc: false
+    number-sections: false
+    include-in-header:
+      text: |
+        \usepackage{setspace}
+        \usepackage{indentfirst}
+        \setlength{\parindent}{1.27cm}
+        \usepackage{fancyhdr}
+        \pagestyle{fancy}
+        \fancyhf{}
+        \rhead{\thepage}
+        \renewcommand{\headrulewidth}{0pt}
+---
+
+\begin{titlepage}
+\centering
+
+\vspace*{5cm}
+
+{\Large \textbf{Impacto de las reformas agrarias sobre la economía agrícola en Colombia: evidencia histórica de largo plazo (1925–2025)}}
+
+\vspace{2cm}
+
+Juan Diego Moreno Sánchez 
+
+Universidad Externado de Colombia  
+
+\vfill
+
+\today
+
+\end{titlepage}
+
+\newpage
+
+# Resumen
+
+Al final
+
+\newpage
+
+# Introducción
+Colombia históricamente se ha caracterizado por una fuerte economía agraria, la cual, durante la mayor parte del siglo XX fue el principal motor económico del país. A pesar de esto, Colombia ha presentado una de las mayores desigualdades en la tenencia de la tierra a nivel mundial en el presente siglo, con un Gini calculado de 0,78 (cita calculo), un Gini de concentración extremadamente alto.
+
+Esto no solo se limita a un problema de tenencia de la tierra; se expande a problemas de productividad de la tierra [@berry1979; @binswanger1995] y de conflicto armado por estas desigualdades estructurales [@deininger1999].
+
+Durante el periodo de análisis (1925–2025), se presentaron múltiples intentos de reforma agraria orientados a solucionar estos problemas estructurales. El primer intento del siglo XX fue la Ley 200 de 1936, promulgada durante la segunda presidencia de Alfonso López Pumarejo . El segundo fue la Ley 135 de 1961, expedida en el contexto del Frente Nacional bajo la presidencia de Alberto Lleras Camargo. El tercer intento fue la Ley 160 de 1994, enmarcada en la Constitución de 1991 y promulgada durante la presidencia de César Gaviria Trujillo. Finalmente, el último esfuerzo relevante corresponde a la reforma agraria derivada del Acuerdo de Paz con las FARC-EP en 2016, durante la presidencia de Juan Manuel Santos Calderón.
+
+La literatura económica ha documentado ampliamente una relación inversa entre la productividad de la tierra y concentración en la posesión de esta [@berry1979], así mismo se ha demostrado una relación positiva entre la concentración de la tierra y generación de conflictos armados [@deininger1999], esto resultados sugieren que la estructura de organización y propiedad de la tierra tienen implicaciones directas en la productividad del sector rural. En la literatura no existe un análisis amplio, basado en datos históricos y cuantificables mediante modelos econométricos, que nos permitan medir los impactos estructurales de las reformas agrarias en Colombia.
+
+Este documento contribuye en tres aspectos. Primero, en la construcción de una serie de tiempo de largo plazo del producto agropecuario en Colombia. Segundo, incorporando pruebas de quiebres estructurales (cita perron y chow). Tercero, implementando el método de proyecciones locales (Cita Oscar).
+
+
+Para ello, se aplican pruebas de quiebres estructurales con el fin de identificar posibles cambios en la tendencia de largo plazo del producto agropecuario. Posteriormente, se analiza la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, utilizando un modelo de proyecciones locales que permite estimar sus efectos en distintos horizontes de tiempo. Las reformas se consideran eventos puntuales, lo que facilita identificar tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector.
+
+
+---
+
+#	Estructura agraria y productividad: fundamentos teóricos
+
+
+En este apartado se analizarán a detalle cada una de las reformas agrarias, los contextos en los cuales fueron promulgadas y los impactos en el sector rural, de este modo, se podrá observar cuál reforma agraria si tuvo un impacto relevante.
+
+## Ley 200 de 1936
+
+La Ley 200 de 1936 introdujo el principio de la “función social de la propiedad”, estableciendo que la tierra debía cumplir un uso económico efectivo. La reforma redefinió la naturaleza de la propiedad rural al vincularla directamente con su explotación productiva. Adicionalmente, se establecieron mecanismos institucionales para sancionar la tenencia improductiva, incluyendo la extinción de dominio en casos de abandono de 5 años. La ley también creó una jurisdicción especial de jueces de tierras, los cuales podrían reconocer a los campesinos como dueños de la tierra por encima de los propietarios, y estableció mecanismos como la prescripción adquisitiva para campesinos que explotaran tierras de buena fe. En conjunto, estas disposiciones trasladaron los conflictos agrarios desde formas de confrontación directa hacia escenarios institucionales mediados por el Estado (Ley 200, 1936; cita unacional.).
+
+
+Desde una perspectiva económica, la ley introdujo incentivos generalizados para que los actores rurales produjeran y dieran un uso eficiente a la tierra, además de penalizar su desuso, impulsado por la redefinición de la propiedad rural. Sin embargo, esta reforma agraria careció de un carácter distributivo significativo: no incorporó mecanismos mediante los cuales el Estado o la sociedad pudieran llevar a cabo una redistribución generalizada de la tierra, y se limitó a casos específicos en los que las condiciones para la redistribución eran poco probables. En particular, a los campesinos se les podía despojar de las tierras antes de cumplir los cinco años establecidos. Esto, al no revertir el proceso de concentración de la tierra, permitió que se profundizaran tanto el conflicto por la tierra (cita) como la improductividad (cita).
+
+##	Ley 135 de 1961
+
+La Ley 135 de 1961 introdujo una reforma agraria enfocada en la redistribución de la tierra. Esta reforma, implementada durante la primera presidencia del Frente Nacional, priorizó la tenencia de tierra para campesinos que no la poseían, favoreciendo a las personas cuyo trabajo estaba relacionado con la explotación de la tierra. Para ello, se creó el Instituto Colombiano de la Reforma Agraria (INCORA) como principal mecanismo estatal de la política pública. Este realizaba extinciones de dominio sobre tierras incultas y la expropiación de predios según su uso: predios sin explotación productiva, es decir, en desuso; con un uso inadecuado del cultivo; o, bajo ciertas condiciones de interés general, incluso en algunos casos cuando existía un adecuado cultivo.
+
+Además, el INCORA tenía como objetivo la eliminación de los minifundios, que en esencia son poco productivos debido al reducido tamaño que representan. Con todo esto, se buscaba poner fin a los conflictos rurales y mejorar la calidad de vida de los campesinos(cita diff).
+
+A pesar de los esfuerzos realizados, la reforma agraria sufrió de una implementación deficiente. En 1962–1963, el país enfrentó una caída en los precios internacionales del café, lo que llevó a que el INCORA pasara de un presupuesto de 100 millones de pesos en 1961 a tan solo 20 millones en 1963 (cita). Esto, sumado a las críticas de grupos conservadores por la expropiación de tierras, e incluso a críticas de sectores liberales por el pago de indemnizaciones a los propietarios, llevó a que la reforma agraria no cumpliera con sus objetivos y a que se profundizara el conflicto por la tierra (cita).
+
+## Ley 160 de 1994
+
+La Ley 160 de 1994, promulgada en el contexto de la Constitución de 1991, introdujo una reforma agraria orientada 
+
+
+
+---
+
+# Metodología
+
+
+
+---
+
+# Resultados
+
+Presenta resultados.
+
+---
+
+# Conclusiones
+
+Conclusiones finales.
+
+---
+
+# Referencias
