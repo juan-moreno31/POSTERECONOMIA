@@ -74,7 +74,7 @@ Además, existen planteamientos que proponer que la economía agrícola se ve af
 
 
 
-Este documento contribuye en tres aspectos. Primero, en la construcción de una serie de tiempo de largo plazo del producto agropecuario y del consumo de los hogares en Colombia. Segundo, incorporando pruebas de quiebres estructurales [@perron1989 ,@chow1960]. Tercero, implementando el método de proyecciones locales [@jorda2005]. Cuarto, analizando la cointregación entre el producto agropecuario y el consumo de los hogares [@murray1995]
+Este documento contribuye en tres aspectos. Primero, en la construcción de una serie de tiempo de largo plazo del producto agropecuario y del consumo de los hogares en Colombia. Segundo, incorporando pruebas de quiebres estructurales [@perron1989 ,@chow1960]. Tercero, implementando el método de proyecciones locales [@jorda2005]. Cuarto, analizando la cointregación entre el producto agropecuario y el consumo de los hogares [@engle_granger1987]
 
 Para ello, se aplican pruebas de quiebres estructurales con el fin de identificar posibles cambios en la tendencia de largo plazo del producto agropecuario. Posteriormente, se analiza la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, utilizando un modelo de proyecciones locales que permite estimar sus efectos en distintos horizontes de tiempo. Las reformas se consideran eventos puntuales, lo que facilita identificar tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector.
 
@@ -183,6 +183,24 @@ Este marco conceptual sugiere la existencia de múltiples mecanismos que afectan
 ------------------------------------------------------------------------
 
 # Metodología
+
+En esta sección mostrare como se construyó la serie de tiempo del producto agropecuario y del consumo de los hogares, así como las pruebas de quiebres estructurales, el método de proyecciones locales y el análisis de cointregación.
+
+## Construcción de la serie de tiempo
+
+Se construyó una serie de tiempo del producto agropecuario y del consumo de los hogares en Colombia para el periodo 1925–2025. Para ello, se uso la base ya estructurada por el Banco de la República de Colombia (BRC) y se hizo un proceso de empalme de las series de tiempo disponibles, usando dos métodos:
+
+1. Método de empalme por encadenamiento: Para el periodo de 1950-2025 se usó la serie de tiempo del producto agropecuario y del consumo de los hogares. La serie fue construida a partir de cinco segmentos correspondientes a diferentes años base, utilizando en cada tramo la base más reciente disponible y posteriormente encadenando las tasas de crecimiento entre periodos. La serie final se expresa en términos de la base 2015, garantizando coherencia en niveles y tasas de variación[@banrep_pib].
+
+2. Ajuste del empalme para el periodo 1925-1949: el enpalme de esta serie con el resto del periodo presento una dificultad, la serie de tiempo del producto agropecuario y del consumo de los hogares para el periodo 1925-1949 se constuyo a partir de la base del año 1950, lo que llevó a que el producto agropecuario y el consumo de los hogares para este periodo fueran mayores a los niveles del año base, lo que no es coherente[@banrep_pib]. 
+Para solucionar esto, se tomó la tasa de crecimiento de la serie del PIB agregado del BRC constuida a partir de 1905 a 2025 sin desagregar por sectores, y se aplicó esta tasa de crecimiento al producto agropecuario y al consumo de los hogares para el periodo 1925-1949, lo que permitió ajustar los niveles de estas variables para que fueran coherentes con la base del año 1950.
+Este procedimiento implicar asumir que el producto agropecuario y el consumo de los hogares crecieron a la misma tasa que el PIB agregado durante el periodo 1949-1950, lo que es una simplificación, pero permite obtener una serie de tiempo coherente para el análisis empírico.
+
+## Pruebas de quiebres estructurales
+
+
+
+
 
 ------------------------------------------------------------------------
 
