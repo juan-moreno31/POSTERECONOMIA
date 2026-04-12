@@ -5,7 +5,8 @@ date: ""
 lang: es
 bibliography: referencias.bib
 csl: apa.csl
-
+warning: false
+echo: false
 format:
   pdf:
     documentclass: article
@@ -74,11 +75,11 @@ Además, existen planteamientos que proponer que la economía agrícola se ve af
 
 
 
-Este documento contribuye en tres aspectos. Primero, en la construcción de una serie de tiempo de largo plazo del producto agropecuario y del consumo de los hogares en Colombia. Segundo, incorporando pruebas de quiebres estructurales [@perron1989 ,@chow1960]. Tercero, implementando el método de proyecciones locales [@jorda2005]. Cuarto, analizando la cointregación entre el producto agropecuario y el consumo de los hogares [@engle_granger1987]
+Este documento contribuye en tres aspectos. Primero, en la construcción de una serie de tiempo de largo plazo del producto agropecuario y del consumo de los hogares en Colombia. Segundo, incorporando pruebas de quiebres estructurales [@bai_perron_2001]. Tercero, implementando el método de proyecciones locales [@jorda2005]. Cuarto, analizando la cointregación entre el producto agropecuario y el consumo de los hogares [@engle_granger1987]
 
-Para ello, se aplican pruebas de quiebres estructurales con el fin de identificar posibles cambios en la tendencia de largo plazo del producto agropecuario. Posteriormente, se analiza la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, utilizando un modelo de proyecciones locales que permite estimar sus efectos en distintos horizontes de tiempo. Las reformas se consideran eventos puntuales, lo que facilita identificar tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector.
+Para ello, se analizará la cointregación entre el producto agropecuario y el consumo de los hogares, con el fin de identificar si existe una relación de largo plazo entre estas variables, lo que permitiría inferir que las reformas agrarias no solo afectan la producción agrícola, sino también el bienestar de los hogares colombianos.
 
-Posteriormente se analizará la cointregación entre el producto agropecuario y el consumo de los hogares, con el fin de identificar si existe una relación de largo plazo entre estas variables, lo que permitiría inferir que las reformas agrarias no solo afectan la producción agrícola, sino también el bienestar de los hogares colombianos.
+Posteriormente  se aplican pruebas de quiebres estructurales con el fin de identificar posibles cambios en la tendencia de largo plazo del producto agropecuario. Posteriormente, se analiza la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, utilizando un modelo de proyecciones locales que permite estimar sus efectos en distintos horizontes de tiempo. Las reformas se consideran eventos puntuales, lo que facilita identificar tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector.
 
 ------------------------------------------------------------------------
 
@@ -248,15 +249,297 @@ ggplot(df, aes(x = Año, y = Producto_Agropecuario)) +
 
 ## Pruebas de quiebres estructurales
 
+Para identificar posibles cambios en la tendencia de largo plazo del producto agropecuario, se aplicaron pruebas de quiebres estructurales. Estas pruebas permiten detectar puntos en el tiempo donde la relación entre las variables cambia de manera significativa, lo que puede estar asociado a eventos como las reformas agrarias. Se utilizaron la prueba de Perron [@bai_perron_2001] para identificar quiebres estructurales en la tendencia del producto agropecuario.
+
+Donde buscaremos quiebres en la tendencia del producto agropecuario, lo que nos permitirá identificar si las reformas agrarias tuvieron un impacto significativo en la dinámica de esta variable a lo largo del tiempo. Además, observaremos si los quiebres estructurales identificados coinciden con los periodos de las reformas agrarias, lo que podría sugerir una relación causal entre estos eventos y los cambios en la tendencia del producto agropecuario.
+
+Para esto usaremos el siguiente modelo:
+
+$$
+Y_t = \alpha + \beta t + u_t
+$$ 
+
+donde $Y_t$ es el producto agropecuario en el tiempo $t$, $\alpha$ es la intersección, $\beta$ es la pendiente de la tendencia, y $u_t$ es el término de error. La prueba de Bai y Perron permite identificar múltiples quiebres estructurales en esta relación, lo que nos permitirá analizar cómo las reformas agrarias han afectado la tendencia del producto agropecuario a lo largo del tiempo.
+
+Posteriormente, se analizará el cambio en la pendiente de la tendencia del producto agropecuario antes y después de cada quiebre estructural identificado, lo que nos permitirá inferir si las reformas agrarias tuvieron un impacto positivo o negativo en la dinámica del sector agropecuario. El cambio en la pendiente se calculará como:
+
+$$ 
+\Delta \beta_{1,j} = \beta_{1,j} - \beta_{1,j-1}
+$$
+
+donde $\beta_{1,j}$ es la pendiente de la tendencia del producto agropecuario en el periodo posterior al quiebre estructural $j$, y $\beta_{1,j-1}$ es la pendiente en el periodo anterior al quiebre estructural $j$. Un cambio positivo en la pendiente indicaría un aumento en la tasa de crecimiento del producto agropecuario después del quiebre, lo que podría sugerir un impacto positivo de las reformas agrarias. Por otro lado, un cambio negativo indicaría una disminución en la tasa de crecimiento, lo que podría sugerir un impacto negativo.
+
+## Análisis de cointregación
+
+Para identificar si existe una relación de largo plazo entre el producto agropecuario y el consumo de los hogares, se realizó un análisis de cointregación utilizando el método de Engle y Granger (1987). Este análisis permite determinar si las dos series están cointegradas, lo que implicaría que existe una relación de equilibrio a largo plazo entre ellas. Si se encuentra evidencia de cointregación, se podría inferir que las reformas agrarias no solo afectan la producción agrícola, sino también el bienestar de los hogares colombianos a través del consumo.
+
+Donde se esrimarán los siguientes modelos para cada una de las pruebas de cointregación:
+
+Con drift:
+$$
+Y_t = \alpha + \beta X_t + u_t
+$$
+
+Con tendencia:
+$$
+Y_t = \alpha + \beta X_t + \gamma t + u_t
+$$
+
+Sin drift ni tendencia:
+$$
+Y_t = \beta X_t + u_t
+$$
+
+donde $Y_t$ es el producto agropecuario en el tiempo $t$, $X_t$ es el consumo de los hogares en el tiempo $t$, $\alpha$ es la intersección, $\beta$ es la pendiente de la relación entre las dos variables, $\gamma$ es la pendiente de la tendencia (en el caso del modelo con tendencia), y $u_t$ es el término de error. La prueba de Engle y Granger se aplicará a los residuos de estos modelos para determinar si las series están cointegradas.
 
 
+## Método de proyecciones locales
 
+Para analizar la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, se implementó un modelo de proyecciones locales (Local Projections) desarrollado por Jordà (2005). Este método permite estimar los efectos de las reformas agrarias en distintos horizontes de tiempo, identificando tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector agropecuario. Las reformas se consideraron eventos puntuales, lo que facilita la identificación de sus impactos a lo largo del tiempo.
+
+$$
+\Delta y_{t+h} = \alpha_h + \beta_h Reform_t + \theta \Delta y_{t-1} + \gamma \Delta c_t + \epsilon_{t+h}
+$$
+
+Se correran diferentes modelos para reforma, ya que si se corre un solo modelo con la sumatoria de las reformas, tendriamos un problema de multicolinealidad perfecta, lo que dificultaría la identificación de los efectos individuales de cada reforma agraria. Por lo tanto, se correrán modelos separados para cada reforma, lo que permitirá identificar el impacto específico de cada una de ellas en la dinámica del producto agropecuario a lo largo del tiempo.
+
+En este modelo, $\Delta y_{t+h}$ representa el cambio en el producto agropecuario en el horizonte de tiempo $h$ después de la reforma, $Reform_t$ es una variable indicadora que toma el valor de 1 en el periodo de la reforma y 0 en los demás periodos, $\Delta y_{t-1}$ es el cambio en el producto agropecuario en el periodo anterior, $\Delta c_t$ es el cambio en el consumo de los hogares en el periodo $t$, y $\epsilon_{t+h}$ es el término de error. Los coeficientes $\beta_h$ estimados para cada horizonte de tiempo $h$ permitirán identificar el impacto de las reformas agrarias en la dinámica del producto agropecuario a lo largo del tiempo.
+
+
+Este modelo permite estimar el impacto de las reformas agrarias en el producto agropecuario a lo largo del tiempo, identificando tanto su impacto inmediato como sus efectos rezagados, lo que es fundamental para entender la dinámica del sector agropecuario en respuesta a cambios institucionales significativos como las reformas agrarias.
 
 ------------------------------------------------------------------------
 
 # Resultados
 
-Presenta resultados.
+## Pruebas de quiebres estructurales
+
+Para realizar las pruebas de quiebres estructurales, se aplicará el método de Bai y Perron (2001) sobre la serie de tiempo del producto agropecuario. Este método permite identificar múltiples quiebres estructurales en la tendencia de la serie, lo que puede estar asociado a eventos como las reformas agrarias.
+
+```{r}
+
+library(tseries)
+library(readr)
+library(strucchange)
+library(forecast)
+library(urca)
+library(knitr)
+library(kableExtra)
+
+# Cargar datos
+df <- read_csv("Base_100_Anios_Construccion.csv")
+ts_producto <- ts(df$Valor, 
+                   start = min(df$Año), 
+                   end = max(df$Año))
+
+bp <- breakpoints(Valor ~ Año, data = df)
+
+idx <- bp$breakpoints
+
+quiebres <- data.frame(
+  Año = as.integer(df$Año[idx]),
+  Producto_Agropecuario = as.numeric(df$Valor[idx])
+)
+
+kable(quiebres, align = "c", booktabs = TRUE) %>%
+  kable_styling(
+    latex_options = c("hold_position"),
+    position = "center",
+    full_width = FALSE
+  ) %>%
+  column_spec(1, bold = TRUE) %>%
+  add_header_above(c("Quiebres Estructurales Identificados" = 2))
+```
+
+Despues analizare esto
+
+Ahora miraremos si estos cambios en la tendencia del producto son positivos o negativos, y si coinciden con algun mecanismo de las reformas agrarias, esto nos permitirá inferir si las reformas agrarias tuvieron un impacto significativo en la dinámica del producto agropecuario a lo largo del tiempo.
+
+```{r}
+# --- Tendencia ---
+df$t <- 1:nrow(df)
+
+# --- Bai-Perron ---
+bp <- breakpoints(Valor ~ t, data = df)
+
+# --- Modelo con regímenes ---
+modelo <- lm(Valor ~ breakfactor(bp) + breakfactor(bp):t, data = df)
+
+# --- Extraer pendientes ---
+coefs <- coef(modelo)
+pendientes <- coefs[grep(":t", names(coefs))]
+
+# --- Calcular cambios en pendiente ---
+cambios <- diff(pendientes)
+
+# --- Fechas de quiebres ---
+fechas_quiebre <- as.integer(df$Año[bp$breakpoints])
+
+# --- Tabla final ---
+tabla_cambios <- data.frame(
+  Año_Quiebre = fechas_quiebre,
+  Cambio_Pendiente = as.numeric(cambios)
+)
+
+# --- Tabla bonita ---
+kable(tabla_cambios, align = "c", booktabs = TRUE) %>%
+  kable_styling(
+    latex_options = c("hold_position"),
+    position = "center",
+    full_width = FALSE
+  ) %>%
+  column_spec(1, bold = TRUE) %>%
+  add_header_above(c("Cambios en la Pendiente en los Quiebres" = 2))
+```
+
+Podemos observar como... Mañana sigo con esto
+
+## Análisis de cointregación
+
+Para analizar la cointregación entre el producto agropecuario y el consumo de los hogares, se aplicará la prueba de Engle y Granger (1987). Esta prueba permite determinar si las dos series están cointegradas, lo que implicaría que existe una relación de equilibrio a largo plazo entre ellas.
+
+```{r}
+# Cargar datos
+df_completo <- read_csv("Base_100_Anios_Completa.csv")
+# Convertir a series de tiempo
+ts_producto_agropecuario <- ts(
+  df_completo$Producto_Agropecuario,
+  start = min(df_completo$Año),
+  frequency = 1
+)
+
+ts_consumo_hogares <- ts(
+  df_completo$Consumo_Hogares,
+  start = min(df_completo$Año),
+  frequency = 1
+)
+# Prueba de cointregación de Engle y Granger
+modelo_coint <- lm(ts_producto_agropecuario ~ ts_consumo_hogares)
+residuos <- resid(modelo_coint)
+prueba_coint <- ur.df(residuos, type = "none", lags = 1)
+
+prueba_drift <- ur.df(residuos, type = "drift", lags = 1)
+
+prueba_trend <-ur.df(residuos, type = "trend", lags = 1)
+
+```
+
+```{r}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+tabla_coint <- data.frame(
+  Especificacion = c("Sin constante", "Con constante", "Con tendencia"),
+  Estadistico_ADF = c(
+    prueba_coint@teststat[1],
+    prueba_drift@teststat[1],
+    prueba_trend@teststat[1]
+  ),
+  critico_5 = c(
+    prueba_coint@cval[1, "5pct"],
+    prueba_drift@cval[1, "5pct"],
+    prueba_trend@cval[1, "5pct"]
+  )
+) %>%
+  mutate(
+    Resultado = ifelse(
+      Estadistico_ADF < critico_5,
+      "Cointegración",
+      "No cointegración"
+    )
+  )
+
+kable(tabla_coint,
+      col.names = c("Especificación", "Estadístico ADF", "Valor crítico (5%)", "Conclusión"),
+      digits = 3, booktabs = TRUE, align = "c") %>%
+  kable_styling(
+    latex_options = c("hold_position"),
+    position = "center",
+    full_width = FALSE
+  ) %>%
+  add_header_above(c("Prueba de Cointegración de Engle–Granger" = 4))
+```
+
+La serie no esta cointegrada, lo que sugiere que no existe una relación de equilibrio a largo plazo entre el producto agropecuario y el consumo de los hogares. Esto implica que en el largo plazo, el consumo de los hogares no se ajusta para mantener una relación estable con el producto agropecuario. Sin embargo, es importante destacar que la falta de cointegración no implica necesariamente la ausencia de una relación causal entre las variables, por lo que se recomienda realizar análisis adicionales para explorar posibles relaciones dinámicas entre el producto agropecuario y el consumo de los hogares, como por ejemplo, el método de proyecciones locales.
+
+## Método de proyecciones locales
+
+El método de proyecciones locales permite estimar el impacto de las reformas agrarias en el producto agropecuario a lo largo del tiempo, identificando tanto su impacto inmediato como sus efectos rezagados. Para esto, se correrán modelos separados para cada reforma, lo que permitirá identificar el impacto específico de cada una de ellas en la dinámica del producto agropecuario a lo largo del tiempo.
+
+```{r}
+library(dplyr)
+library(purrr)
+library(broom)
+library(kableExtra)
+
+# --- 1. Preparar datos ---
+df_completo <- df_completo %>%
+  arrange(Año) %>%
+  mutate(
+    y  = log(Producto_Agropecuario),
+    dy = y - lag(y),
+    
+    c  = log(Consumo_Hogares),
+    dc = c - lag(c),
+    
+    dy_l1 = lag(dy, 1)
+  )
+
+# --- 2. Definir reformas ---
+reformas <- c(1936, 1961, 1994, 2016)
+
+# --- 3. Horizonte ---
+H <- 10
+
+# --- 4. Función simple ---
+estimar_lp <- function(anio) {
+  
+  df_temp <- df_completo %>%
+    mutate(dummy = ifelse(Año >= anio, 1, 0))
+  
+  map_dfr(0:H, function(h) {
+    
+    base <- df_temp %>%
+      mutate(dy_lead = dplyr::lead(dy, h)) %>%
+      filter(!is.na(dy_lead), !is.na(dy_l1), !is.na(dc))
+    
+    modelo <- lm(dy_lead ~ dummy + dy_l1 + dc, data = base)
+    
+    tidy(modelo) %>%
+      filter(term == "dummy") %>%
+      transmute(
+        reforma = anio,
+        h = h,
+        beta = estimate,
+        p_value = p.value
+      )
+  })
+}
+
+# --- 5. Correr los 4 modelos ---
+resultados <- map_dfr(reformas, estimar_lp)
+
+# --- 6. Tabla final (sin agregaciones raras) ---
+tabla <- resultados %>%
+  mutate(
+    sig = ifelse(p_value < 0.05, "*", "")
+  ) %>%
+  select(Reforma = reforma, Horizonte = h, Beta = beta, `p-valor` = p_value, Sig = sig)
+
+# --- 7. Mostrar tabla ---
+tabla_sig <- tabla %>%
+  filter(`p-valor` < 0.05)
+
+kable(tabla_sig, digits = 3, booktabs = TRUE, align = "c") %>%
+  kable_styling(
+    latex_options = c("hold_position"),
+    position = "center",
+    full_width = FALSE
+  ) %>%
+  add_header_above(c("Efectos Significativos de las Reformas (Proyecciones Locales)" = 5))
+```
+
 
 ------------------------------------------------------------------------
 

@@ -7,12 +7,15 @@ df_consumo_final <- read_csv("Base_100_Anios_Consumo.csv")
 
 # Unimos las dos series en un solo data frame para graficar
 df <- data.frame(
-  Año = df_producto_agropecuario$Año,
+  Año = df_producto_agropecuario$Fecha,
   Producto_Agropecuario = df_producto_agropecuario$Valor,
   Consumo_Hogares = df_consumo_final$Valor
 )
 # pasamos año a formato fecha
-df$Año <- as.Date(as.character(df$Año), format="%Y")
+df$Fecha <- as.Date(as.character(df$Fecha), format="%Y")
+
+#descargamos la base unida para el modelo
+write_csv(df, "Base_100_Anios_Completa.csv")
 
 library(ggplot2)
 
