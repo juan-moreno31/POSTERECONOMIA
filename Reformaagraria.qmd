@@ -81,7 +81,7 @@ Para ello, se analizará la cointregación entre el producto agropecuario y el c
 
 Posteriormente  se aplican pruebas de quiebres estructurales con el fin de identificar posibles cambios en la tendencia de largo plazo del producto agropecuario. Posteriormente, se analiza la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, utilizando un modelo de proyecciones locales que permite estimar sus efectos en distintos horizontes de tiempo. Las reformas se consideran eventos puntuales, lo que facilita identificar tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector.
 
-------------------------------------------------------------------------
+
 
 # Estructura agraria y productividad: fundamentos teóricos
 
@@ -89,9 +89,9 @@ En este apartado se analizarán a detalle cada una de las reformas agrarias, los
 
 ## Ley 200 de 1936
 
-La Ley 200 de 1936 introdujo el principio de la “función social de la propiedad”, estableciendo que la tierra debía cumplir un uso económico efectivo. La reforma redefinió la naturaleza de la propiedad rural al vincularla directamente con su explotación productiva. Adicionalmente, se establecieron mecanismos institucionales para sancionar la tenencia improductiva, incluyendo la extinción de dominio en casos de abandono de 5 años. La ley también creó una jurisdicción especial de jueces de tierras, los cuales podrían reconocer a los campesinos como dueños de la tierra por encima de los propietarios, y estableció mecanismos como la prescripción adquisitiva para campesinos que explotaran tierras de buena fe. En conjunto, estas disposiciones trasladaron los conflictos agrarios desde formas de confrontación directa hacia escenarios institucionales mediados por el Estado [@ley2001936, @marulanda1989].
+La Ley 200 de 1936 introdujo el principio de la “función social de la propiedad”, estableciendo que la tierra debía cumplir un uso económico efectivo. La reforma redefinió la naturaleza de la propiedad rural al vincularla directamente con su explotación productiva. Adicionalmente, se establecieron mecanismos institucionales para sancionar la tenencia improductiva, incluyendo la extinción de dominio en casos de abandono de 5 años. La ley también creó una jurisdicción especial de jueces de tierras, los cuales podrían reconocer a los campesinos como dueños de la tierra por encima de los propietarios, y estableció mecanismos como la prescripción adquisitiva para campesinos que explotaran tierras de buena fe. En conjunto, estas disposiciones trasladaron los conflictos agrarios desde formas de confrontación directa hacia escenarios institucionales mediados por el Estado [@ley2001936; @marulanda1989].
 
-Desde una perspectiva económica, la ley introdujo incentivos generalizados para que los actores rurales produjeran y dieran un uso eficiente a la tierra, además de penalizar su desuso, impulsado por la redefinición de la propiedad rural. Sin embargo, esta reforma agraria careció de un carácter distributivo significativo: no incorporó mecanismos mediante los cuales el Estado o la sociedad pudieran llevar a cabo una redistribución generalizada de la tierra, y se limitó a casos específicos en los que las condiciones para la redistribución eran poco probables. En particular, a los campesinos se les podía despojar de las tierras antes de cumplir los cinco años establecidos. Esto, al no revertir el proceso de concentración de la tierra, permitió que se profundizaran tanto el conflicto por la tierra como la improductividad [@navarrete2017, @marulanda1989]
+Desde una perspectiva económica, la ley introdujo incentivos generalizados para que los actores rurales produjeran y dieran un uso eficiente a la tierra, además de penalizar su desuso, impulsado por la redefinición de la propiedad rural. Sin embargo, esta reforma agraria careció de un carácter distributivo significativo: no incorporó mecanismos mediante los cuales el Estado o la sociedad pudieran llevar a cabo una redistribución generalizada de la tierra, y se limitó a casos específicos en los que las condiciones para la redistribución eran poco probables. En particular, a los campesinos se les podía despojar de las tierras antes de cumplir los cinco años establecidos. Esto, al no revertir el proceso de concentración de la tierra, permitió que se profundizaran tanto el conflicto por la tierra como la improductividad [@navarrete2017; @marulanda1989]
 
 ## Ley 135 de 1961
 
@@ -181,7 +181,6 @@ Este marco conceptual sugiere la existencia de múltiples mecanismos que afectan
 
 
 
-------------------------------------------------------------------------
 
 # Metodología
 
@@ -197,61 +196,11 @@ Se construyó una serie de tiempo del producto agropecuario y del consumo de los
 Para solucionar esto, se tomó la tasa de crecimiento de la serie del PIB agregado del BRC constuida a partir de 1905 a 2025 sin desagregar por sectores, y se aplicó esta tasa de crecimiento al producto agropecuario y al consumo de los hogares para el periodo 1925-1949, lo que permitió ajustar los niveles de estas variables para que fueran coherentes con la base del año 1950.
 Este procedimiento implicar asumir que el producto agropecuario y el consumo de los hogares crecieron a la misma tasa que el PIB agregado durante el periodo 1949-1950, lo que es una simplificación, pero permite obtener una serie de tiempo coherente para el análisis empírico.
 
-
-La serie de tiempo se ve de la siguiente manera:
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-# grafica de las series de tiempo del producto agropecuario y del consumo de los hogares
-library(ggplot2)
-library(readr)
-# Cargar los datos
-df_producto_agropecuario <- read_csv("Base_100_Anios_Construccion.csv")
-df_consumo_final <- read_csv("Base_100_Anios_Consumo.csv")
-
-# Unimos las dos series en un solo data frame para graficar
-df <- data.frame(
-    Año = df_producto_agropecuario$Año,
-    Producto_Agropecuario = df_producto_agropecuario$Valor,
-    Consumo_Hogares = df_consumo_final$Valor
-)
-
-df$Año <- as.Date(as.character(df$Año), format = "%Y")
-
-reformas <- data.frame(
-  inicio = as.Date(c("1936-01-01", "1961-01-01", "1994-01-01", "2016-01-01")),
-  fin    = as.Date(c("1960-12-31", "1993-12-31", "2015-12-31", "2025-12-31")),
-  nombre = c("1936", "1961", "1994", "2016"),
-  fill   = c("#c7e9c0", "#fdd0a2", "#c6dbef", "#f4c3b5ff")
-)
-
-ggplot(df, aes(x = Año, y = Producto_Agropecuario)) +
-  geom_rect(
-    data = reformas,
-    aes(xmin = inicio, xmax = fin, ymin = -Inf, ymax = Inf, fill = nombre),
-    alpha = 0.25, inherit.aes = FALSE
-  ) +
-  scale_fill_manual(values = setNames(reformas$fill, reformas$nombre)) +
-  geom_line(size = 1, color = "black") +
-  labs(
-    title = "Producto Agropecuario en Colombia (1925–2025)",
-    subtitle = "Periodos de reforma agraria",
-    x = "Año",
-    y = "Miles de millones de pesos",
-    fill = "Reformas",
-  caption = "Fuente: Banco de la República de Colombia \n Nota: Los precios son constantes a 2015."
-  ) +
-  coord_cartesian(xlim = c(min(df$Año), max(df$Año) + 365)) +
-  scale_x_date(date_breaks = "10 years", date_labels = "%Y") +
-  theme_classic() +
-  theme(legend.position = "bottom", legend.text = element_text(size = 9), plot.title = element_text(face = "bold")) +
-  guides(fill = guide_legend(nrow = 2))
-```
-
 ## Pruebas de quiebres estructurales
 
-Para identificar posibles cambios en la tendencia de largo plazo del producto agropecuario, se aplicaron pruebas de quiebres estructurales. Estas pruebas permiten detectar puntos en el tiempo donde la relación entre las variables cambia de manera significativa, lo que puede estar asociado a eventos como las reformas agrarias. Se utilizaron la prueba de Perron [@bai_perron_2001] para identificar quiebres estructurales en la tendencia del producto agropecuario.
+Para identificar posibles cambios en la dinamicá de largo plazo del producto agropecuario, se aplicaron pruebas de quiebres estructurales. Estas pruebas permiten detectar puntos en el tiempo donde la relación entre las variables cambia de manera significativa, lo que puede estar asociado a eventos como las reformas agrarias. Se utilizaron la prueba de Perron [@bai_perron_2001] para identificar quiebres estructurales en la tendencia del producto agropecuario.
 
-Donde buscaremos quiebres en la tendencia del producto agropecuario, lo que nos permitirá identificar si las reformas agrarias tuvieron un impacto significativo en la dinámica de esta variable a lo largo del tiempo. Además, observaremos si los quiebres estructurales identificados coinciden con los periodos de las reformas agrarias, lo que podría sugerir una relación causal entre estos eventos y los cambios en la tendencia del producto agropecuario.
+Donde buscaremos quiebres en la dinamicá del producto agropecuario, lo que nos permitirá identificar si las reformas agrarias tuvieron un impacto significativo en la dinámica de esta variable a lo largo del tiempo. Además, observaremos si los quiebres estructurales identificados coinciden con los periodos de las reformas agrarias, lo que podría sugerir una relación causal entre estos eventos y los cambios en la dinamicá del producto agropecuario.
 
 Para esto usaremos el siguiente modelo:
 
@@ -259,7 +208,7 @@ $$
 Y_t = \alpha + \beta t + u_t
 $$ 
 
-donde $Y_t$ es el producto agropecuario en el tiempo $t$, $\alpha$ es la intersección, $\beta$ es la pendiente de la tendencia, y $u_t$ es el término de error. La prueba de Bai y Perron permite identificar múltiples quiebres estructurales en esta relación, lo que nos permitirá analizar cómo las reformas agrarias han afectado la tendencia del producto agropecuario a lo largo del tiempo.
+donde $Y_t$ es el producto agropecuario en el tiempo $t$, $\alpha$ es la intersección, $\beta$ es la pendiente de la tendencia, y $u_t$ es el término de error. La prueba de Bai y Perron permite identificar múltiples quiebres estructurales en esta relación, lo que nos permitirá analizar cómo las reformas agrarias han afectado la dinamicá del producto agropecuario a lo largo del tiempo.
 
 Posteriormente, se analizará el cambio en la pendiente de la tendencia del producto agropecuario antes y después de cada quiebre estructural identificado, lo que nos permitirá inferir si las reformas agrarias tuvieron un impacto positivo o negativo en la dinámica del sector agropecuario. El cambio en la pendiente se calculará como:
 
@@ -298,26 +247,219 @@ donde $Y_t$ es el producto agropecuario en el tiempo $t$, $X_t$ es el consumo de
 Para analizar la dinámica del producto agropecuario como respuesta a cambios institucionales asociados a las reformas agrarias, se implementó un modelo de proyecciones locales (Local Projections) desarrollado por Jordà (2005). Este método permite estimar los efectos de las reformas agrarias en distintos horizontes de tiempo, identificando tanto su impacto inmediato como sus efectos rezagados sobre el desempeño del sector agropecuario. Las reformas se consideraron eventos puntuales, lo que facilita la identificación de sus impactos a lo largo del tiempo.
 
 $$
-\Delta y_{t+h} = \alpha_h + \beta_h Reform_t + \theta \Delta y_{t-1} + \gamma \Delta c_t + \epsilon_{t+h}
+ y_{t+h}-y_{t-1} = \alpha_h + \beta_h Reforma_t + \theta \Delta y_{t-1} + \gamma \Delta c_t + \epsilon_{t+h}
 $$
 
-Se correran diferentes modelos para reforma, ya que si se corre un solo modelo con la sumatoria de las reformas, tendriamos un problema de multicolinealidad perfecta, lo que dificultaría la identificación de los efectos individuales de cada reforma agraria. Por lo tanto, se correrán modelos separados para cada reforma, lo que permitirá identificar el impacto específico de cada una de ellas en la dinámica del producto agropecuario a lo largo del tiempo.
+En este modelo, $ y_{t+h}-y_{t-1}$ representa el cambio en el producto agropecuario en el horizonte de tiempo $h$ después de la reforma, $Reforma_t$ es una variable indicadora que toma el valor de 1 en el periodo de la reforma y 0 en los demás periodos como un S, $\Delta y_{t-1}$ es el cambio en el producto agropecuario en el periodo anterior, $\Delta c_t$ es el cambio en el consumo de los hogares en el periodo $t$, y $\epsilon_{t+h}$ es el término de error. Los coeficientes $\beta_h$ estimados para cada horizonte de tiempo $h$ permitirán identificar el impacto de las reformas agrarias en la dinámica del producto agropecuario a lo largo del tiempo.
 
-En este modelo, $\Delta y_{t+h}$ representa el cambio en el producto agropecuario en el horizonte de tiempo $h$ después de la reforma, $Reform_t$ es una variable indicadora que toma el valor de 1 en el periodo de la reforma y 0 en los demás periodos, $\Delta y_{t-1}$ es el cambio en el producto agropecuario en el periodo anterior, $\Delta c_t$ es el cambio en el consumo de los hogares en el periodo $t$, y $\epsilon_{t+h}$ es el término de error. Los coeficientes $\beta_h$ estimados para cada horizonte de tiempo $h$ permitirán identificar el impacto de las reformas agrarias en la dinámica del producto agropecuario a lo largo del tiempo.
-
+Para asegurar la validez de los resultados, correjiremos los errores estándar utilizando el método HC1 [@MACKINNON1985305], lo que permitirá obtener inferencias robustas a la heterocedasticidad en los errores del modelo.
 
 Este modelo permite estimar el impacto de las reformas agrarias en el producto agropecuario a lo largo del tiempo, identificando tanto su impacto inmediato como sus efectos rezagados, lo que es fundamental para entender la dinámica del sector agropecuario en respuesta a cambios institucionales significativos como las reformas agrarias.
 
-------------------------------------------------------------------------
+
 
 # Resultados
+
+## Construcción de la serie de tiempo
+
+Se construyó una serie de tiempo del producto agropecuario y del consumo de los hogares en Colombia para el periodo 1925–2025, utilizando datos del Banco de la República de Colombia (BRC) y aplicando métodos de empalme para garantizar la coherencia de las series a lo largo del tiempo. La serie final se expresa en términos de la base 2015, lo que permite analizar la evolución del producto agropecuario y el consumo de los hogares a lo largo de un siglo, incluyendo los periodos antes y después de las reformas agrarias.
+
+```{r}
+#| label: fig-grafica1
+#| fig-cap: "Gráfica 1. Evolución del producto agropecuario y periodos de reforma agraria en Colombia (1925–2025), precios constantes (base 2015)."
+#| fig-width: 5.5
+#| fig-height: 3.5
+#| fig-align: center
+
+library(ggplot2)
+library(readr)
+
+# --- Cargar datos ---
+df_producto_agropecuario <- read_csv("Base_100_Anios_Construccion.csv")
+df_consumo_final <- read_csv("Base_100_Anios_Consumo.csv")
+
+df <- data.frame(
+  Año = df_producto_agropecuario$Año,
+  Producto_Agropecuario = df_producto_agropecuario$Valor,
+  Consumo_Hogares = df_consumo_final$Valor
+)
+
+df$Año <- as.Date(as.character(df$Año), format = "%Y")
+
+# --- Reformas ---
+reformas <- data.frame(
+  inicio = as.Date(c("1936-01-01", "1961-01-01", "1994-01-01", "2016-01-01")),
+  fin    = as.Date(c("1960-12-31", "1993-12-31", "2015-12-31", "2025-12-31")),
+  nombre = c("Ley 200 (1936)", "Ley 135 (1961)", "Ley 160 (1994)", "Acuerdo de Paz (2016)")
+)
+
+# --- Gráfica ---
+ggplot(df, aes(x = Año, y = Producto_Agropecuario)) +
+  
+  # Sombras (más sobrias)
+  geom_rect(
+    data = reformas,
+    aes(xmin = inicio, xmax = fin, ymin = -Inf, ymax = Inf, fill = nombre),
+    alpha = 0.15, inherit.aes = FALSE
+  ) +
+  
+  # Línea principal (más elegante)
+  geom_line(linewidth = 0.8, color = "black") +
+  
+scale_fill_manual(values = c(
+  "Ley 200 (1936)" = "#8bbedaff",   # azul claro
+  "Ley 135 (1961)" = "#a0d96eff",   # verde suave
+  "Ley 160 (1994)" = "#ffb656ff",   # naranja suave
+  "Acuerdo de Paz (2016)" = "#bb8dd2ff"  # morado suave
+)) +
+  
+  # Ejes
+  scale_x_date(date_breaks = "10 years", date_labels = "%Y") +
+  
+  # Etiquetas
+  labs(
+    x = "Año",
+    y = "Miles de millones de pesos",
+    fill = "Periodos de reforma"
+  ) +
+  
+  coord_cartesian(xlim = c(min(df$Año), max(df$Año))) +
+  
+  # Tema tipo paper
+  theme(
+  legend.position = "bottom",
+  legend.title = element_text(size = 10),
+  legend.text = element_text(size = 9),
+  legend.box = "horizontal",
+  
+  plot.title = element_text(face = "bold", hjust = 0.5),
+  plot.subtitle = element_blank(),
+  
+  axis.text = element_text(color = "black"),
+  axis.title = element_text(face = "plain"),
+  
+  panel.border = element_blank()
+) + guides(fill = guide_legend(nrow = 2)) + ggtitle("Producto Agropecuario en Colombia")
+```
+
+
+
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(patchwork)
+library(scales)
+
+# --- Cargar datos ---
+df_producto_agropecuario <- read_csv("Base_100_Anios_Construccion.csv")
+df_consumo_final <- read_csv("Base_100_Anios_Consumo.csv")
+
+df <- data.frame(
+  Año = df_producto_agropecuario$Año,
+  Producto_Agropecuario = df_producto_agropecuario$Valor,
+  Consumo_Hogares = df_consumo_final$Valor
+)
+
+df$Año <- as.Date(as.character(df$Año), format = "%Y")
+
+# --- Formato largo ---
+df_long <- df %>%
+  pivot_longer(
+    cols = c(Producto_Agropecuario, Consumo_Hogares),
+    names_to = "Serie",
+    values_to = "Valor"
+  )
+
+# --- Etiquetas ---
+df_long$Serie <- recode(df_long$Serie,
+  "Producto_Agropecuario" = "Producto Agropecuario",
+  "Consumo_Hogares" = "Consumo de Hogares"
+)
+
+# --- Colores sobrios ---
+colores <- c(
+  "Producto Agropecuario" = "#1b9e77",
+  "Consumo de Hogares" = "#d95f02"
+)
+```
+
+```{r}
+#| label: fig-grafica2a
+#| fig-cap: "Gráfica 2. Producto agropecuario y consumo de los hogares en Colombia (1925–2025)."
+#| fig-width: 5.5
+#| fig-height: 3
+#| fig-align: center
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(scales)
+
+# Panel (a)
+g1 <- ggplot(df_long, aes(x = Año, y = Valor, color = Serie)) +
+  geom_line(linewidth = 0.8) +
+  scale_color_manual(values = colores) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    subtitle = "a) Niveles (precios constantes)",
+    x = NULL,
+    y = "Miles de millones de pesos"
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    legend.position = "none",
+    plot.subtitle = element_text(face = "plain"),
+    plot.title = element_text(face = "bold", hjust = 0.5)
+  ) +
+  ggtitle("Producto Agropecuario y Consumo de los Hogares en Colombia")
+
+g1
+```
+
+```{r}
+#| label: fig-grafica2b
+#| fig-cap: "Gráfica 3. Producto agropecuario y consumo de los hogares en Colombia (1925–2025) en logaritmos."
+#| fig-width: 5.5
+#| fig-height: 3
+#| fig-align: center
+
+# Panel (b)
+g2 <- ggplot(df_long, aes(x = Año, y = log(Valor), color = Serie)) +
+  geom_line(linewidth = 0.8) +
+  scale_color_manual(values = colores) +
+  labs(
+    subtitle = "b) Logaritmos",
+    x = "Año",
+    y = "Logaritmo",
+    color = ""
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    plot.subtitle = element_text(face = "plain")
+  )
+
+g2
+```
+
+
+En la Gráfica 2 se muestran los diferentes periodos de tiempo en los cuales cada reforma agraria tuvo un impacto significativo en la dinámica del producto agropecuario. Podemos observar que durante la Ley 200 de 1936 hubo un crecimiento del producto agrapecuario bastante moderado, sin embargo, a partir de la Ley 135 de 1961 se observa un crecimiento más acelerado del producto agropecuario. En el periodo de la Ley 160 de 1994 se observa un crecimiento del producto agropecuario, aunque no tan acelerado como el periodo anterior. Finalmente, durante el periodo del Acuerdo de Paz con las FARC-EP en 2016 se observa un crecimiento del producto agropecuario mas alto que en los periodos anteriores, aunque es importante destacar que este periodo es el más corto, por lo que se debe tener precaución al interpretar estos resultados.
+
+En la Gráfica 3 se muestra la evolución del producto agropecuario y del consumo de los hogares en Colombia en logaritmos, lo que permite observar la tasa de crecimiento de estas variables a lo largo del tiempo. Podemos observar que el producto agropecuario y el consumo de los hogares han tenido una tendencia creciente a lo largo del tiempo, pero con diferentes tasas de crecimiento, lo que llevo a que el consumo de los hogares creciera mucho más rápido que el producto agropecuario.
+
+En la Gráfica 4 se muestra la evolución del producto agropecuario y del consumo de los hogares en Colombia en logaritmos, pero con una escala diferente para cada variable, lo que permite observar la relación entre estas variables a lo largo del tiempo. Podemos observar como estas dos variaables han tenido un comportamiento similar a lo largo del tiempo.
 
 ## Pruebas de quiebres estructurales
 
 Para realizar las pruebas de quiebres estructurales, se aplicará el método de Bai y Perron (2001) sobre la serie de tiempo del producto agropecuario. Este método permite identificar múltiples quiebres estructurales en la tendencia de la serie, lo que puede estar asociado a eventos como las reformas agrarias.
 
 ```{r}
-
+#| label: tbl-quiebres
+#| tbl-cap: "Quiebres estructurales identificados en el producto agropecuario (valores en miles de millones de pesos)."
+#| tbl-align: center
 library(tseries)
 library(readr)
 library(strucchange)
@@ -340,8 +482,8 @@ quiebres <- data.frame(
   Año = as.integer(df$Año[idx]),
   Producto_Agropecuario = as.numeric(df$Valor[idx])
 )
-
-kable(quiebres, align = "c", booktabs = TRUE) %>%
+kable(quiebres, align = "c", booktabs = TRUE,
+      col.names = c("Año", "Producto (miles de millones)")) %>%
   kable_styling(
     latex_options = c("hold_position"),
     position = "center",
@@ -351,38 +493,64 @@ kable(quiebres, align = "c", booktabs = TRUE) %>%
   add_header_above(c("Quiebres Estructurales Identificados" = 2))
 ```
 
-Despues analizare esto
+En este análisis se indentificaron cuatro quiebres estructurales en la serie de tiempo del producto agropecuario, los cuales coinciden con los periodos de las reformas agrarias. El primer quiebre se indentificó en el año 1942, lo cual no coincide con ninguna reforma agraria. En segundo lugar fue indentificado un quiebre en el año 1966, lo cual coincide con el periodo de la Ley 135 de 1961. El tercer quiebre se indentificó en el año 1989, lo cual no coincide con ninguna reforma agraria. Finalmente, el cuarto quiebre se indentificó en el año 2009, el cual tampoco coincide con ninguna reforma agraria.
 
 Ahora miraremos si estos cambios en la tendencia del producto son positivos o negativos, y si coinciden con algun mecanismo de las reformas agrarias, esto nos permitirá inferir si las reformas agrarias tuvieron un impacto significativo en la dinámica del producto agropecuario a lo largo del tiempo.
 
 ```{r}
-# --- Tendencia ---
-df$t <- 1:nrow(df)
+#| label: tbl-cambios
+#| tbl-cap: "Cambios en la pendiente del producto agropecuario en los quiebres estructurales (miles de millones de pesos por año)."
+#| tbl-align: center
 
-# --- Bai-Perron ---
+library(strucchange)
+library(readr)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# --- 1. Cargar datos ---
+df <- read_csv("Base_100_Anios_Construccion.csv")
+
+# --- 2. Crear tendencia ---
+df <- df %>%
+  arrange(Año) %>%
+  mutate(t = 1:n())
+
+# --- 3. Bai-Perron ---
 bp <- breakpoints(Valor ~ t, data = df)
 
-# --- Modelo con regímenes ---
-modelo <- lm(Valor ~ breakfactor(bp) + breakfactor(bp):t, data = df)
+# --- 4. Obtener quiebres ---
+breaks <- bp$breakpoints
+n <- nrow(df)
 
-# --- Extraer pendientes ---
-coefs <- coef(modelo)
-pendientes <- coefs[grep(":t", names(coefs))]
+# --- 5. Crear regímenes manualmente ---
+regimen <- rep(1:(length(breaks) + 1),
+               times = diff(c(0, breaks, n)))
 
-# --- Calcular cambios en pendiente ---
-cambios <- diff(pendientes)
+df$regimen <- regimen
 
-# --- Fechas de quiebres ---
-fechas_quiebre <- as.integer(df$Año[bp$breakpoints])
+# --- 6. Estimar pendiente por régimen ---
+pendientes_df <- df %>%
+  group_by(regimen) %>%
+  summarise(
+    pendiente = coef(lm(Valor ~ t))[2],
+    .groups = "drop"
+  )
 
-# --- Tabla final ---
+# --- 7. Cambios en pendiente ---
+cambios <- diff(pendientes_df$pendiente)
+
+# --- 8. Fechas de quiebres ---
+fechas_quiebre <- df$Año[breaks]
+
+# --- 9. Tabla final ---
 tabla_cambios <- data.frame(
   Año_Quiebre = fechas_quiebre,
-  Cambio_Pendiente = as.numeric(cambios)
+  Cambio_Pendiente = cambios
 )
 
-# --- Tabla bonita ---
-kable(tabla_cambios, align = "c", booktabs = TRUE) %>%
+kable(tabla_cambios, digits = 2, align = "c", booktabs = TRUE,
+      col.names = c("Año de quiebre", "Cambio en la pendiente")) %>%
   kable_styling(
     latex_options = c("hold_position"),
     position = "center",
@@ -392,7 +560,14 @@ kable(tabla_cambios, align = "c", booktabs = TRUE) %>%
   add_header_above(c("Cambios en la Pendiente en los Quiebres" = 2))
 ```
 
-Podemos observar como... Mañana sigo con esto
+En el quiebre de 1942 se observa un cambio positivo en la pendiente del producto agropecuario de 140.12 miles de millones de pesos por año, lo que sugiere un aumento en la tasa de crecimiento del producto agropecuario después de este quiebre. Sin embargo, este quiebre no coincide con ninguna reforma agraria, por lo que es posible que otros factores hayan influido en este cambio.
+
+En el quiebre de 1966 se observa un cambio positivo en la pendiente del producto agropecuario de 433.35 miles de millones de pesos por año, lo que sugiere un aumento significativo en la tasa de crecimiento del producto agropecuario después de este quiebre. Este quiebre coincide con el periodo de la Ley 135 de 1961, lo que podría sugerir un impacto positivo de esta reforma agraria en la dinámica del producto agropecuario.
+
+En el quiebre de 1989 se observa un cambio negativo en la pendiente del producto agropecuario de -253.26 miles de millones de pesos por año, lo que sugiere una disminución en la tasa de crecimiento del producto agropecuario después de este quiebre. Este quiebre no coincide con ninguna reforma agraria, por lo que es posible que otros factores hayan influido en este cambio.
+
+Finalmente, en el quiebre de 2009 se observa un cambio positivo en la pendiente del producto agropecuario de 1113.43 miles de millones de pesos por año, lo que sugiere un aumento significativo en la tasa de crecimiento del producto agropecuario después de este quiebre. Este quiebre no coincide con ninguna reforma agraria, por lo que es posible que otros factores hayan influido en este cambio.
+
 
 ## Análisis de cointregación
 
@@ -400,6 +575,8 @@ Para analizar la cointregación entre el producto agropecuario y el consumo de l
 
 ```{r}
 # Cargar datos
+library(readr)
+
 df_completo <- read_csv("Base_100_Anios_Completa.csv")
 # Convertir a series de tiempo
 ts_producto_agropecuario <- ts(
@@ -425,6 +602,11 @@ prueba_trend <-ur.df(residuos, type = "trend", lags = 1)
 ```
 
 ```{r}
+#| label: tbl-coint
+#| tbl-cap: "Resultados de la prueba de cointegración de Engle y Granger entre el producto agropecuario y el consumo de los hogares."
+#| tbl-align: center
+
+
 library(dplyr)
 library(knitr)
 library(kableExtra)
@@ -461,92 +643,150 @@ kable(tabla_coint,
   add_header_above(c("Prueba de Cointegración de Engle–Granger" = 4))
 ```
 
-La serie no esta cointegrada, lo que sugiere que no existe una relación de equilibrio a largo plazo entre el producto agropecuario y el consumo de los hogares. Esto implica que en el largo plazo, el consumo de los hogares no se ajusta para mantener una relación estable con el producto agropecuario. Sin embargo, es importante destacar que la falta de cointegración no implica necesariamente la ausencia de una relación causal entre las variables, por lo que se recomienda realizar análisis adicionales para explorar posibles relaciones dinámicas entre el producto agropecuario y el consumo de los hogares, como por ejemplo, el método de proyecciones locales.
+La evidencia emperica sugiere que el producto agropecuario y el consumo de los hogares no están cointegrados, En particular, no se rechaza la hipótesis nula de raíz unitaria en los residuos de la regresión de largo plazo, lo que indica la ausencia de una relación de equilibrio estable entre ambas variables.
+
+Estos resultados sugieren que, aunque el producto agropecuario y el consumo de los hogares han mostrado una tendencia creciente a lo largo del tiempo, lo que implica que no existe un mecanismo de ajuste a largo plazo entre estas variables.
+
+Sin embargo, es importante destacar que la ausencia de cointegración no implica necesariamente la ausencia de una relación causal entre el producto agropecuario y el consumo de los hogares, ya que podrían existir relaciones dinámicas a corto plazo o mecanismos de transmisión que no se capturan en un análisis de cointegración. Por lo tanto, se recomienda realizar análisis adicionales, como modelos de corrección de errores o análisis de causalidad, para explorar posibles relaciones dinámicas entre estas variables.
+
+
+
 
 ## Método de proyecciones locales
 
 El método de proyecciones locales permite estimar el impacto de las reformas agrarias en el producto agropecuario a lo largo del tiempo, identificando tanto su impacto inmediato como sus efectos rezagados. Para esto, se correrán modelos separados para cada reforma, lo que permitirá identificar el impacto específico de cada una de ellas en la dinámica del producto agropecuario a lo largo del tiempo.
 
-```{r}
-library(dplyr)
-library(purrr)
-library(broom)
-library(kableExtra)
+Además graficaremos los resultados de las proyecciones locales con la finalidad de visualizar el impacto de cada reforma agraria en el producto agropecuario a lo largo del tiempo, para esto usaremos la grafica IRF (Impulse Response Function) que muestra el impacto de un choque puntual (en este caso, la reforma agraria) en el producto agropecuario a lo largo del tiempo.
 
-# --- 1. Preparar datos ---
-df_completo <- df_completo %>%
-  arrange(Año) %>%
+```{r}
+# 1. Cargar librerías necesarias
+library(tidyverse)
+library(lmtest)   # Para testeo de coeficientes
+library(sandwich) # Para errores estándar robustos
+library(lubridate) # Para manejo de fechas
+
+# 2. Carga y preparación estricta de la base
+# Se asegura que el año sea numérico y la serie esté ordenada cronológicamente
+df_completo <- read_csv("Base_100_Anios_Completa.csv") %>%
+  mutate(Anio_Num = year(as.Date(Año))) %>% 
+  arrange(Anio_Num) 
+
+# 3. Construcción de variables (Logs, Rezagos y Diferencias)
+# ly = log(y), dy_lag = Delta y_{t-1}, dc_contemp = Delta c_t
+df_preparado <- df_completo %>%
   mutate(
-    y  = log(Producto_Agropecuario),
-    dy = y - lag(y),
-    
-    c  = log(Consumo_Hogares),
-    dc = c - lag(c),
-    
-    dy_l1 = lag(dy, 1)
+    ly = log(Producto_Agropecuario),
+    lc = log(Consumo_Hogares),
+    dy_lag = lag(ly, 1) - lag(ly, 2), # Control de persistencia (Lag Augmentation)
+    dc_cont = lc - lag(lc, 1),       # Control contemporáneo de consumo
+    y_previo = lag(ly, 1)            # Término y_{t-1} para la diferencia larga
   )
 
-# --- 2. Definir reformas ---
-reformas <- c(1936, 1961, 1994, 2016)
-
-# --- 3. Horizonte ---
-H <- 10
-
-# --- 4. Función simple ---
-estimar_lp <- function(anio) {
+# 4. Función Maestra de Proyecciones Locales
+# h = horizonte, Reform = Dummy de choque puntual
+estimar_lp_reforma <- function(data, year_reforma, H_max) {
   
-  df_temp <- df_completo %>%
-    mutate(dummy = ifelse(Año >= anio, 1, 0))
+  # Crear dummy de la reforma: 1 solo en el año del evento
+  data <- data %>% mutate(Reform = if_else(Anio_Num == year_reforma, 1, 0))
   
-  map_dfr(0:H, function(h) {
+  # Verificación inicial: ¿Existen datos históricos suficientes para este año?
+  check <- data %>% filter(Anio_Num == year_reforma) %>% 
+    drop_na(dy_lag, dc_cont, y_previo)
+  
+  if(nrow(check) == 0){
+    message(paste("Aviso: El año", year_reforma, "no tiene rezagos previos en la base. Saltando."))
+    return(NULL)
+  }
+
+  resultados_h <- list()
+  
+  for (h in 0:H_max) {
+    # Variable dependiente: Diferencia larga acumulada (y_{t+h} - y_{t-1})
+    data_h <- data %>%
+      mutate(dep_var = lead(ly, h) - y_previo) %>%
+      filter(!is.na(dep_var), !is.na(dy_lag), !is.na(dc_cont))
     
-    base <- df_temp %>%
-      mutate(dy_lead = dplyr::lead(dy, h)) %>%
-      filter(!is.na(dy_lead), !is.na(dy_l1), !is.na(dc))
+    # Validar si el año del choque aún existe después de perder datos futuros
+    if (sum(data_h$Reform) == 0) {
+      message(paste("H =", h, "para", year_reforma, "excede el límite de la base (2025)."))
+      next
+    }
     
-    modelo <- lm(dy_lead ~ dummy + dy_l1 + dc, data = base)
+    # Estimación OLS
+    modelo <- lm(dep_var ~ Reform + dy_lag + dc_cont, data = data_h)
     
-    tidy(modelo) %>%
-      filter(term == "dummy") %>%
-      transmute(
-        reforma = anio,
-        h = h,
-        beta = estimate,
-        p_value = p.value
-      )
-  })
+    # Inferencia Robusta HC1: Más estable que HC3 para muestras pequeñas con dummies
+    # Proporciona resultados equivalentes a la opción 'robust' en Stata
+    se_robusto <- coeftest(modelo, vcov = vcovHC(modelo, type = "HC1"))
+    
+    # Guardar resultados del impacto (Beta_h)
+    resultados_h[[h + 1]] <- data.frame(
+      Horizonte = h,
+      Beta = se_robusto["Reform", "Estimate"],
+      Error_Std = se_robusto["Reform", "Std. Error"],
+      T_Stat = se_robusto["Reform", "t value"],
+      P_Value = se_robusto["Reform", "Pr(>|t|)"]
+    )
+  }
+  
+  if(length(resultados_h) == 0) return(NULL)
+  bind_rows(resultados_h) %>% mutate(Reforma_Año = year_reforma)
 }
 
-# --- 5. Correr los 4 modelos ---
-resultados <- map_dfr(reformas, estimar_lp)
+# 5. Ejecución para tus 4 periodos de interés
+res_1936 <- estimar_lp_reforma(df_preparado, 1936, 10)
+res_1961 <- estimar_lp_reforma(df_preparado, 1961, 10)
+res_1994 <- estimar_lp_reforma(df_preparado, 1994, 10)
+res_2016 <- estimar_lp_reforma(df_preparado, 2016, 8)
 
-# --- 6. Tabla final (sin agregaciones raras) ---
-tabla <- resultados %>%
+# 6. Consolidación Final
+tabla_final <- bind_rows(res_1936, res_1961, res_1994, res_2016)
+
+
+```
+
+```{r}
+# 1. Cargar las librerías
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+
+# 2. Filtrar resultados significativos
+tabla_bonita <- tabla_final %>%
+  filter(P_Value < 0.05) %>%
   mutate(
-    sig = ifelse(p_value < 0.05, "*", "")
+    Significancia = case_when(
+      P_Value < 0.01 ~ "***",
+      P_Value < 0.05 ~ "**",
+      TRUE ~ "*"
+    )
   ) %>%
-  select(Reforma = reforma, Horizonte = h, Beta = beta, `p-valor` = p_value, Sig = sig)
+  select(Reforma_Año, Horizonte, Beta, Error_Std, T_Stat, P_Value, Significancia)
 
-# --- 7. Mostrar tabla ---
-tabla_sig <- tabla %>%
-  filter(`p-valor` < 0.05)
-
-kable(tabla_sig, digits = 3, booktabs = TRUE, align = "c") %>%
+# 3. Crear la tabla compatible con PDF (LaTeX)
+tabla_bonita %>%
+  kable(
+    format = "latex",
+    col.names = c("Año Reforma", "Horiz.", "Beta", "Error Std.", "T-Stat", "P-Valor", "Sig."),
+    digits = 4,
+    booktabs = TRUE,
+    align = "c",
+    caption = "Resultados Significativos del Impacto de las Reformas") %>%
   kable_styling(
-    latex_options = c("hold_position"),
-    position = "center",
+    latex_options = c("striped", "repeat_header", "scale_down"),
     full_width = FALSE
   ) %>%
-  add_header_above(c("Efectos Significativos de las Reformas (Proyecciones Locales)" = 5))
+  column_spec(3, bold = T)
 ```
 
 
-------------------------------------------------------------------------
+
+
+\newpage
 
 # Conclusiones
 
 Conclusiones finales.
 
-------------------------------------------------------------------------
 
 # Referencias

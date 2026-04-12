@@ -14,8 +14,11 @@ df <- data.frame(
 # pasamos año a formato fecha
 df$Fecha <- as.Date(as.character(df$Fecha), format="%Y")
 
-#descargamos la base unida para el modelo
-write_csv(df, "Base_100_Anios_Completa.csv")
+library(urca)
+# Use ur.df from the 'urca' package and the actual data column instead of the undefined ts_producto_agropecuario
+prueba <- ur.df(diff(df$Producto_Agropecuario, differences = 1), type = "drift", lags = 4)
+summary(prueba)
+
 
 library(ggplot2)
 
