@@ -493,7 +493,7 @@ kable(quiebres, align = "c", booktabs = TRUE,
   add_header_above(c("Quiebres Estructurales Identificados" = 2))
 ```
 
-En este análisis se indentificaron cuatro quiebres estructurales en la serie de tiempo del producto agropecuario, los cuales coinciden con los periodos de las reformas agrarias. El primer quiebre se indentificó en el año 1942, lo cual no coincide con ninguna reforma agraria. En segundo lugar fue indentificado un quiebre en el año 1966, lo cual coincide con el periodo de la Ley 135 de 1961. El tercer quiebre se indentificó en el año 1989, lo cual no coincide con ninguna reforma agraria. Finalmente, el cuarto quiebre se indentificó en el año 2009, el cual tampoco coincide con ninguna reforma agraria.
+En este análisis se indentificaron cuatro quiebres estructurales en la serie de tiempo del producto agropecuario, los cuales coinciden con los periodos de las reformas agrarias. El primer quiebre se indentificó en el año 1942, el cual coincide con la reforma agraria de la Ley 200 de 1936. En segundo lugar fue indentificado un quiebre en el año 1966, lo cual coincide con el periodo de la Ley 135 de 1961. El tercer quiebre se indentificó en el año 1989, lo cual no coincide con ninguna reforma agraria. Finalmente, el cuarto quiebre se indentificó en el año 2009, el cual tampoco coincide con ninguna reforma agraria.
 
 Ahora miraremos si estos cambios en la tendencia del producto son positivos o negativos, y si coinciden con algun mecanismo de las reformas agrarias, esto nos permitirá inferir si las reformas agrarias tuvieron un impacto significativo en la dinámica del producto agropecuario a lo largo del tiempo.
 
@@ -560,7 +560,8 @@ kable(tabla_cambios, digits = 2, align = "c", booktabs = TRUE,
   add_header_above(c("Cambios en la Pendiente en los Quiebres" = 2))
 ```
 
-En el quiebre de 1942 se observa un cambio positivo en la pendiente del producto agropecuario de 140.12 miles de millones de pesos por año, lo que indica un aumento en la tasa de crecimiento del producto agropecuario después de este quiebre. Sin embargo, este quiebre no coincide con ninguna reforma agraria, pero es posible que las reforma tenga un impacto rezagado, lo que podría explicar este cambio positivo en la pendiente del producto agropecuario después de la Ley 200 de 1936, aunque también es posible que otros factores hayan influido en este cambio.
+En el quiebre de 1942 se observa un cambio positivo en la pendiente del producto agropecuario de 140.12 miles de millones de pesos por año, lo que indica un aumento en la tasa de crecimiento del producto agropecuario después de este quiebre. Este quiebre coincide con el periodo de la Ley 200 de 1936, lo que podría sugerir un impacto positivo de esta reforma agraria en la dinámica del producto agropecuario.
+
 
 En el quiebre de 1966 se observa un cambio positivo en la pendiente del producto agropecuario de 433.35 miles de millones de pesos por año, lo que muestra un aumento significativo en la tasa de crecimiento del producto agropecuario después de este quiebre. Este quiebre coincide con el periodo de la Ley 135 de 1961, lo que podría sugerir un impacto positivo de esta reforma agraria en la dinámica del producto agropecuario.
 
