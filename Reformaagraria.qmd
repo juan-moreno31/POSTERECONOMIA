@@ -7,6 +7,7 @@ bibliography: referencias.bib
 csl: apa.csl
 warning: false
 echo: false
+number-sections: true
 format:
   pdf:
     documentclass: article
@@ -19,19 +20,32 @@ format:
     fontsize: 12pt
     toc: false
     number-sections: false
-    include-in-header:
-      text: |
-        \usepackage{setspace}
-        \usepackage{indentfirst}
-        \setlength{\parindent}{1.27cm}
-        \usepackage{fancyhdr}
-        \pagestyle{fancy}
-        \fancyhf{}
-        \rhead{\thepage}
-        \renewcommand{\headrulewidth}{0pt}
-        \usepackage{tikz}
-        \usetikzlibrary{positioning}
-        \usepackage{float}
+include-in-header:
+  text: |
+    \usepackage{setspace}
+    \usepackage{indentfirst}
+    \setlength{\parindent}{1.27cm}
+
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \fancyhf{}
+    \rhead{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+
+    \usepackage{tikz}
+    \usetikzlibrary{positioning}
+
+    \usepackage{float}
+
+    % Quitar color azul de enlaces (forma compatible con Quarto)
+    \AtBeginDocument{
+      \hypersetup{
+        colorlinks=true,
+        linkcolor=black,
+        urlcolor=black,
+        citecolor=black
+      }
+    }
 ---
 
 \begin{titlepage}
@@ -39,7 +53,7 @@ format:
 
 \vspace*{3cm}
 
-% Título del trabajo (En negrita, centrado y en la parte superior-media)
+
 {\Large \textbf{Cien años de reformas agrarias en Colombia: evidencia cliométrica y proyecciones locales bayesianas sobre la dinámica del producto agropecuario}}
 
 \vspace{1.5cm}
@@ -82,6 +96,9 @@ Los resultados preliminares sugieren que las reformas agrarias tuvieron efectos 
 
 **Palabras clave**: reforma agraria, producto agropecuario, cliometría, VAR bayesiano, proyecciones locales bayesianas, quiebres estructurales, Colombia.
 
+
+\newpage
+\tableofcontents
 \newpage
 
 # Introducción
@@ -90,7 +107,7 @@ Colombia históricamente se ha caracterizado por una fuerte economía agraria, l
 
 Esto no solo se limita a un problema de tenencia de la tierra; se expande a problemas de productividad de la tierra [@berry1979; @binswanger1995] y de conflicto armado por estas desigualdades estructurales [@deininger1999].
 
-Durante el periodo de análisis (1925–2025), se presentaron múltiples intentos de reforma agraria orientados a solucionar estos problemas estructurales. El primer intento del siglo XX fue la Ley 200 de 1936, promulgada durante la segunda presidencia de Alfonso López Pumarejo . El segundo fue la Ley 135 de 1961, expedida en el contexto del Frente Nacional bajo la presidencia de Alberto Lleras Camargo. El tercer intento fue la Ley 160 de 1994, enmarcada en la Constitución de 1991 y promulgada durante la presidencia de César Gaviria Trujillo. Finalmente, el último esfuerzo relevante corresponde a la reforma agraria derivada del Acuerdo de Paz con las FARC-EP en 2016, durante la presidencia de Juan Manuel Santos Calderón.
+Durante el periodo de análisis (1925–2025), se presentaron múltiples intentos de reforma agraria orientados a solucionar estos problemas estructurales. El primer intento del siglo XX fue la Ley 200 de 1936, promulgada durante la segunda presidencia de Alfonso López Pumarejo. El segundo fue la Ley 135 de 1961, expedida en el contexto del Frente Nacional bajo la presidencia de Alberto Lleras Camargo. El tercer intento fue la Ley 160 de 1994, enmarcada en la Constitución de 1991 y promulgada durante la presidencia de César Gaviria Trujillo. Finalmente, el último esfuerzo relevante corresponde a la reforma agraria derivada del Acuerdo de Paz con las FARC-EP en 2016, durante la presidencia de Juan Manuel Santos Calderón.
 
 La literatura económica ha documentado ampliamente una relación inversa entre la productividad de la tierra y concentración en la posesión de esta [@berry1979], así mismo se ha demostrado una relación positiva entre la concentración de la tierra y generación de conflictos armados [@deininger1999], esto resultados sugieren que la estructura de organización y propiedad de la tierra tienen implicaciones directas en la productividad del sector rural. En la literatura no existe un análisis amplio, basado en datos históricos y cuantificables mediante modelos econométricos, que nos permitan medir los impactos estructurales de las reformas agrarias en Colombia.
 
